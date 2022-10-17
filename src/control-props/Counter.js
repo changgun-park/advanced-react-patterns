@@ -13,9 +13,8 @@ function Counter({ children, onChange, value = null, initialValue = 0 }) {
   const firstMount = useRef(true);
 
   useEffect(() => {
-    console.log("useEffect");
-
-    // controlled가 아닐때만 onChange 발동
+    // if controlled: don't invoke onChange
+    // if uncontrolled: invoke onChange
     if (!firstMount.current && !isControlled) {
       onChange && onChange(count);
     }
@@ -32,6 +31,8 @@ function Counter({ children, onChange, value = null, initialValue = 0 }) {
   };
 
   const handleCountChange = (newValue) => {
+    // if controlled: invoke onChange passsed by user
+    // if uncontrolled: setCount, thereby invoking useEffect which will eventually invoke onChange
     isControlled ? onChange(newValue) : setCount(newValue);
   };
 
